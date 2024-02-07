@@ -2,10 +2,15 @@ let classifier
 let labelSpan
 let confidenceSpan
 let clearButton
+let problemTitle
 let canvas
-let item
 
+// problems 
 let items = ["hand", "rabbit", "mouse", "strawberry", "mouth"]
+let problem
+
+// score
+let score = 0
 
 function preload() {
   classifier = ml5.imageClassifier('DoodleNet');
@@ -21,8 +26,13 @@ function setup() {
 
   labelSpan = select("#label");
   confidenceSpan = select("#confidence");
-}
 
+  problemTitle = select('#problemTitle')
+  problemInit()
+
+  scoreSpan = select('#score')
+
+}
 
 function clearCanvas() {
   background(255);
@@ -36,6 +46,16 @@ function draw() {
   }
 }
 
+function problemInit() {
+  problem = random(items)
+  problemTitle.html("Draw a " + problem)
+}
+
+function updatetScore() {
+  score += 1
+  scoreSpan.html(score)
+}
+
 function gotResult(error, results) {
   if (error) {
     console.error(error);
@@ -43,6 +63,13 @@ function gotResult(error, results) {
   }
   labelSpan.html(results[0].label);
   confidenceSpan.html(floor(100 * results[0].confidence));
+
+  if (results[0].label == problem){
+    problemInit()
+    updatetScore()
+    clearCanvas()
+  }
+
   classifier.classify(canvas, gotResult);
 }
 
