@@ -39,6 +39,8 @@ function clearCanvas() {
 }
 
 function draw() {
+  canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2)
+
   strokeWeight(16);
   stroke(0);
   if (mouseIsPressed) {
@@ -56,13 +58,14 @@ function updatetScore() {
   scoreSpan.html(score)
 }
 
+
 function gotResult(error, results) {
   if (error) {
     console.error(error);
     return;
   }
-  labelSpan.html(results[0].label);
-  confidenceSpan.html(floor(100 * results[0].confidence));
+  labelSpan.html("Is it a " + results[0].label + "?");
+  // confidenceSpan.html(floor(100 * results[0].confidence));
 
   if (results[0].label == problem){
     problemInit()

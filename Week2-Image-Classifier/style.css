@@ -1,12 +1,22 @@
-html, body {
+body {
   margin: 0;
   padding: 0;
   text-align: center;
+
 }
 
 canvas {
   display: block;
 }
 
+#canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#bottomPanel {
+  margin-top: 400px;
+}
 
 
