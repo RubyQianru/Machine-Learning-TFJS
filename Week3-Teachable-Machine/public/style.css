@@ -14,11 +14,44 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease; 
+}
+
+#raiseHand {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  font-size: 100px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.5s ease; 
+}
+
+#clap {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  font-size: 100px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.5s ease; 
 }
 
 #heart.visible {
-  visibility: visible;
+  opacity: 1; 
+}
+
+#raiseHand.visible {
+  opacity: 1;
+}
+
+#clap.visible {
+  opacity: 1;
 }
 
 

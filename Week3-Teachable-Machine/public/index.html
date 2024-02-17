@@ -9,10 +9,12 @@
     <script type="text/javascript">
 
       window.addEventListener("load", function(){
+        const URL = "https://teachablemachine.withgoogle.com/models/_sKU0E-Yh/"
 
-        const URL = "https://teachablemachine.withgoogle.com/models/sbMMEv4mT/"
         let model, labelContainer, maxPredictions
         const heart = document.getElementById('heart')
+        const raiseHand = document.getElementById('raiseHand')
+        const clap = document.getElementById('clap')
 
         let socket = io.connect()
 
@@ -20,15 +22,42 @@
           console.log("Connected")
         })
 
+        let heartToggle = false
+        let raiseToggle = false
+        let clapToggle = false
+
         async function predict(target) {
           const prediction = await model.predict(target)
-          if (prediction[0].probability >= 0.9 && prediction[0].className == 'With Heart') {
-            sendHeart()
+          console.log(prediction[0])
+          if (prediction[0].probability >= 0.95 && heartToggle == false ) {
+            sendSymbol(heart)
+            symbolToggle(heartToggle)
+          }
+
+          else if (prediction[1].probability >= 0.95 && raiseToggle == false ) {
+            sendSymbol(raiseHand)
+            symbolToggle(raiseToggle)
+          }
+
+          else if (prediction[2].probability >= 0.95 && raiseToggle == false ) {
+            sendSymbol(clap)
+            symbolToggle(clapToggle)
           }
         }
 
-        async function sendHeart() {
-          heart.className = 'visible'
+        function sendSymbol(symbol) {
+          symbol.className = 'visible'
+
+          setTimeout(() => {
+            symbol.classList.remove('visible')
+          }, 2000);            
+        }        
+
+        function symbolToggle(toggle) {
+          toggle = true
+          setTimeout(() => {
+              toggle = false
+            }, 2001)
         }
 
         async function init() {
@@ -53,7 +82,7 @@
             setInterval(() => {
               context.drawImage(video, 0, 0, canvas.width, canvas.height)
               predict(canvas)
-              socket.emit('v', canvas)
+              socket.emit('video', canvas)
             }, 100);
           };
           
@@ -61,10 +90,13 @@
           alert(err);  
         });
 
+        socket.on('video', function(data){
+          console.log(data)
+        })
+
       })
 
     </script>
-
     <link rel="stylesheet" type="text/css" href="style.css">
     <style>
     </style>
@@ -72,14 +104,24 @@
   </head>
 
   <body>
-    <div id="videoContainer">
-      <div id="heart">
-        <svg width="100px" height="100px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="pink"/>
-          </svg>
+    <div id="videos">
+      <div id="videoContainer">
+        <div id="heart">
+          <svg width="100px" height="100px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="pink"/>
+            </svg>
+        </div>
+        <div id="raiseHand" >
+          🤚
+        </div>
+        <div id="clap">
+          👏
+        </div>
+        <canvas id="thecanvas" width="400" height="300"></canvas>
       </div>
-      <canvas id="thecanvas" width="400" height="300"></canvas>
     </div>
+    
+
     <video src="" id="thevideo" muted hidden></video>
     <img src="" alt="" id="theimage">
   </body>
