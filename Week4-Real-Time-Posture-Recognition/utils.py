@@ -23,7 +23,7 @@ def load_data(explore=True, random_seed=1):
             y_data.append(1)
         elif label['0'] == 'y':
             y_data.append(2)
-        else:
+        elif label['0'] == 't':
             y_data.append(3)
 
     x_data = np.array([list(sample.values()) for sample in x_data])
