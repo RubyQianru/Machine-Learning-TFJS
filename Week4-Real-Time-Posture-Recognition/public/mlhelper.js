@@ -1,5 +1,3 @@
-
-
 let socket = io.connect()
 
 let model, tfmodel,  prediction
@@ -31,18 +29,19 @@ async function predict(target) {
       const output = tf.tidy(() => {
         return model.predict(tf.tensor(inputs, [1, 63]));
       });
+   
       const result = await output.array()
       console.log(result)
       const maxi = await getResult(result[0])
       console.log(maxi)
 
-      if (maxi == 0 && heartToggle == false ) {
-        socket.emit('heart')
-      }
+      // if (maxi == 0 && heartToggle == false ) {
+      //   socket.emit('heart')
+      // }
   
-      else if (maxi == 1 && raiseToggle == false ) {
-        socket.emit('raise')
-      }
+      // else if (maxi == 1 && raiseToggle == false ) {
+      //   socket.emit('raise')
+      // }
   
     }
     
@@ -84,7 +83,6 @@ async function predict(target) {
   async function init() {
     const modelURL = "./tfjsmodel/model.json"
     model = await tf.loadGraphModel(modelURL)
-    console.log(model)
 
     // tsjs handpose detection points
     tfmodel = await handpose.load()

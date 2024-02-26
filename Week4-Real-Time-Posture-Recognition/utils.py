@@ -5,35 +5,52 @@ import numpy as np
 import matplotlib.pyplot as plt
 import json
 
-def load_data(explore=True):
+def load_data(explore=True, random_seed=1):
     # Load JSON data from the file
     with open("data.json", "r") as file:
         json_data = json.load(file)
 
     # Extract xs and ys from each dictionary
     x_data = [sample['xs'] for sample in json_data['data']]
-    y_data = [sample['ys'] for sample in json_data['data']]
+    temp = [sample['ys'] for sample in json_data['data']]
 
     # Assuming you want to convert 'r' to 1 and other values to 0
-    y_data = [1 if label == 'r' else 0 for label in y_data]
+    y_data = []
+    for label in temp:
+        if label['0'] == 'h':
+            y_data.append(0)
+        elif label['0'] == 'r':
+            y_data.append(1)
+        elif label['0'] == 'y':
+            y_data.append(2)
+        else:
+            y_data.append(3)
 
     x_data = np.array([list(sample.values()) for sample in x_data])
 
+    # shuffle data 
+    if random_seed is not None:
+        np.random.seed(random_seed)
+    
+    shuffle_indices = np.random.permutation(len(x_data))
+    x_data = x_data[shuffle_indices]
+    y_data = np.array(y_data)[shuffle_indices]
 
-    # Split the data into training and testing sets (you may need to adjust the split ratio)
     split_idx = int(len(x_data) * 0.8)
     x_train, y_train = x_data[:split_idx], y_data[:split_idx]
     x_test, y_test = x_data[split_idx:], y_data[split_idx:]
+
+    print(y_data)
 
     return np.array(x_train), np.array(y_train), np.array(x_test), np.array(y_test)
 
 def preprocess_data(x_train, y_train, x_test, y_test):
 
-    # x_train = x_train.reshape(-1, 28 * 28).astype("float32") / 255
-    # x_test = x_test.reshape(-1, 28 * 28).astype("float32") / 255
+    x_train = x_train.reshape(-1, 63).astype("float32") / 505
+    x_test = x_test.reshape(-1, 63).astype("float32") / 505
 
-    # y_train = y_train.astype("float32") 
-    # y_test = y_test.astype("float32") 
+    y_train = y_train.astype("float32") 
+    y_test = y_test.astype("float32") 
 
     val_size = int(len(x_train) * 0.1)
 
@@ -48,8 +65,8 @@ def preprocess_data(x_train, y_train, x_test, y_test):
 def build_model():
 
     model = keras.Sequential([
-        layers.Dense(32, activation="relu"),
-        layers.Dense(2, activation="softmax")
+        layers.Dense(64, activation="relu"),
+        layers.Dense(4, activation="softmax")
     ])
 
     model.compile(optimizer="adam",
@@ -93,6 +110,14 @@ def test_model(model, x_test, y_test):
     y_pred = np.argmax(predictions, axis=1)
 
     test_loss, test_acc = model.evaluate(x_test, y_test)
+
+    print(
+        predictions[0].argmax(),
+        predictions[1].argmax(),
+        predictions[2].argmax(),
+        predictions[3].argmax(),
+        predictions[4].argmax()
+        )
 
     return test_acc, y_pred
 
