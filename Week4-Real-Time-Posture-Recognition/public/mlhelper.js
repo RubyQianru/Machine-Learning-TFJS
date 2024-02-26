@@ -1,6 +1,6 @@
 let socket = io.connect()
 
-const URL = "https://teachablemachine.withgoogle.com/models/_sKU0E-Yh/"
+const URL = "../tfjsmodel"
 let model,  maxPredictions
 let heartToggle = false
 let raiseToggle = false
@@ -20,9 +20,9 @@ async function predict(target) {
       socket.emit('raise')
     }
 
-    else if (prediction[2].probability >= 0.95 && raiseToggle == false ) {
-      socket.emit('clap')
-    }
+    // else if (prediction[2].probability >= 0.95 && raiseToggle == false ) {
+    //   socket.emit('clap')
+    // }
   }
 
   socket.on('heart', function(){
@@ -57,8 +57,6 @@ async function predict(target) {
   }
 
   async function init() {
-      const modelURL = URL + "model.json";
-      const metadataURL = URL + "metadata.json";
-      model = await tmImage.load(modelURL, metadataURL);
-      maxPredictions = model.getTotalClasses();
+    const modelURL = "/path/to/destination_folder/model.json";
+    model = await tf.loadGraphModel(modelURL);
   }
