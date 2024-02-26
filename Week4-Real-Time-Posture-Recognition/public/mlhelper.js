@@ -1,7 +1,8 @@
+
+
 let socket = io.connect()
 
-const URL = "../tfjsmodel"
-let model,  maxPredictions
+let model, tfmodel,  prediction
 let heartToggle = false
 let raiseToggle = false
 let clapToggle = false 
@@ -10,16 +11,41 @@ const heart = document.getElementById('heart')
 const raiseHand = document.getElementById('raiseHand')
 const clap = document.getElementById('clap')
 
+async function getResult(output) {
+  let maxValue = Math.max(...output);
+  let maxIndex = output.indexOf(maxValue);
+  return maxIndex
+}
+
 async function predict(target) {
-    const prediction = await model.predict(target)
-    if (prediction[0].probability >= 0.95 && heartToggle == false ) {
-      socket.emit('heart')
-    }
+    const skeleton = await tfmodel.estimateHands(target)
+    if (skeleton.length > 0) {
+      const landmarks = skeleton[0].landmarks
+      let inputs = [];
+      for (let i = 0; i < landmarks.length; i++) {
+        inputs.push(landmarks[i][0] / 640);
+        inputs.push(landmarks[i][1] / 480);
+        inputs.push((landmarks[i][2] + 80) / 80);
+      }
 
-    else if (prediction[1].probability >= 0.95 && raiseToggle == false ) {
-      socket.emit('raise')
-    }
+      const output = tf.tidy(() => {
+        return model.predict(tf.tensor(inputs, [1, 63]));
+      });
+      const result = await output.array()
+      console.log(result)
+      const maxi = await getResult(result[0])
+      console.log(maxi)
 
+      if (maxi == 0 && heartToggle == false ) {
+        socket.emit('heart')
+      }
+  
+      else if (maxi == 1 && raiseToggle == false ) {
+        socket.emit('raise')
+      }
+  
+    }
+    
     // else if (prediction[2].probability >= 0.95 && raiseToggle == false ) {
     //   socket.emit('clap')
     // }
@@ -45,8 +71,7 @@ async function predict(target) {
 
     setTimeout(() => {
       symbol.classList.remove('visible')
-    }, 2000);    
-    
+    }, 2000)
   }        
 
   function symbolToggle(toggle) {
@@ -57,6 +82,10 @@ async function predict(target) {
   }
 
   async function init() {
-    const modelURL = "/path/to/destination_folder/model.json";
-    model = await tf.loadGraphModel(modelURL);
+    const modelURL = "./tfjsmodel/model.json"
+    model = await tf.loadGraphModel(modelURL)
+    console.log(model)
+
+    // tsjs handpose detection points
+    tfmodel = await handpose.load()
   }
