@@ -54,8 +54,6 @@ def preprocess_data(x_train, y_train, x_test, y_test):
 
     val_size = int(len(x_train) * 0.1)
 
-    # Slice the training data into train and validation sets, 
-    # where the validation set is the same size as the test set
     x_train, x_val = x_train[:-val_size], x_train[-val_size:]
     y_train, y_val = y_train[:-val_size], y_train[-val_size:]
 
