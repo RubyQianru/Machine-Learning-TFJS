@@ -52,8 +52,12 @@ io.sockets.on('connection',
             io.emit('raise')
         })
 
-        socket.on('clap', function(){
-            io.emit('clap')
+        socket.on('yay', function(){
+            io.emit('yay')
+        })
+
+		socket.on('thumb', function(){
+            io.emit('thumb')
         })
 
         socket.on('disconnect', function() {

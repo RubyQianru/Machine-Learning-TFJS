@@ -63,7 +63,7 @@ def preprocess_data(x_train, y_train, x_test, y_test):
 def build_model():
 
     model = keras.Sequential([
-        layers.Dense(64, activation="relu"),
+        layers.Dense(32, activation="relu"),
         layers.Dense(4, activation="softmax")
     ])
 

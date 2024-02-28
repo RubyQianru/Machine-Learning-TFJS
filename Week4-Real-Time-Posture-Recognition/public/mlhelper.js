@@ -3,11 +3,13 @@ let socket = io.connect()
 let model, tfmodel,  prediction
 let heartToggle = false
 let raiseToggle = false
-let clapToggle = false 
+let yayToggle = false 
+let thumbToggle = false
 
 const heart = document.getElementById('heart')
 const raiseHand = document.getElementById('raiseHand')
-const clap = document.getElementById('clap')
+const yay = document.getElementById('yay')
+const thumb = document.getElementById('thumb')
 
 async function getResult(output) {
   let maxValue = Math.max(...output);
@@ -21,53 +23,44 @@ async function predict(target) {
       const landmarks = skeleton[0].landmarks
       let inputs = [];
       for (let i = 0; i < landmarks.length; i++) {
-        inputs.push(landmarks[i][0] / 640);
-        inputs.push(landmarks[i][1] / 480);
-        inputs.push((landmarks[i][2] + 80) / 80);
+        inputs.push(landmarks[i][0]);
+        inputs.push(landmarks[i][1]);
+        inputs.push(landmarks[i][2]);
       }
 
-      const output = tf.tidy(() => {
-        return model.predict(tf.tensor(inputs, [1, 63]));
-      });
-   
+      const output = model.predict(tf.tensor(inputs, [1, 63]));
+      console.log(output)
       const result = await output.array()
       console.log(result)
       const maxi = await getResult(result[0])
       console.log(maxi)
 
-      // if (maxi == 0 && heartToggle == false ) {
-      //   socket.emit('heart')
-      // }
-  
-      // else if (maxi == 1 && raiseToggle == false ) {
-      //   socket.emit('raise')
-      // }
-  
+      if (maxi == 0 && heartToggle == false ) {
+        socket.emit('heart')
+      }else if (maxi == 1 && raiseToggle == false ) {
+        socket.emit('raise')
+      }else if (maxi == 2 && yayToggle == false) {
+        socket.emit('yay')
+      }else if (maxi == 3 && thumbToggle == false) {
+        socket.emit('thumb')
+      }
     }
-    
-    // else if (prediction[2].probability >= 0.95 && raiseToggle == false ) {
-    //   socket.emit('clap')
-    // }
   }
+  socket.on('heart', handler(heart, heartToggle))
+  socket.on('raise', handler(raiseHand, raiseToggle))
+  socket.on('yay', handler(yay, yayToggle))
+  socket.on('thumb', handler(thumb, thumbToggle))
 
-  socket.on('heart', function(){
-    sendSymbol(heart)
-    symbolToggle(heartToggle)
-  })
 
-  socket.on('raise', function(){
-    sendSymbol(raiseHand)
-    symbolToggle(raiseToggle)
-  })
-
-  socket.on('clap', function(){
-    sendSymbol(clap)
-    symbolToggle(clapToggle)
-  })
+  function handler(symbol, toggle) {
+    return function () {
+      sendSymbol(symbol)
+      symbolToggle(toggle)
+    }
+  }
 
   function sendSymbol(symbol) {
     symbol.className = 'visible'
-
     setTimeout(() => {
       symbol.classList.remove('visible')
     }, 2000)
@@ -81,7 +74,7 @@ async function predict(target) {
   }
 
   async function init() {
-    const modelURL = "./tfjsmodel/model.json"
+    const modelURL = "./tfjsmodel-graph/model.json"
     model = await tf.loadGraphModel(modelURL)
 
     // tsjs handpose detection points
