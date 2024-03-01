@@ -1,0 +1,235 @@
+<html>
+	<head>
+	 	<script src="simplepeer.min.js"></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>    
+		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+	
+		<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/handpose"></script>
+		<script src="./mlhelper.js" defer></script>
+		<script type="text/javascript">
+				
+			let simplepeers = [];
+			var socket;
+			var mystream;
+			
+			window.addEventListener('load', function() {
+				const canvas = document.getElementById('thecanvas')
+				const context = canvas.getContext('2d')
+				initCapture(canvas, context);
+			});
+
+			function initCapture(canvas, context) {
+				console.log("initCapture");
+				
+				// The video element on the page to display the webcam
+				initModel()
+				let video = document.getElementById('myvideo');
+
+				// Constraints - what do we want?
+				let constraints = { audio: true, video: true }
+
+				// Prompt the user for permission, get the stream
+				navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+					// Global object
+					mystream = stream;
+					// Attach to our video object
+					video.srcObject = stream;
+					
+					// Wait for the stream to load enough to play
+					video.onloadedmetadata = function(e) {
+						video.play();
+						setInterval(() => {
+							context.drawImage(video, 0, 0, canvas.width, canvas.height)
+							makePrediction(canvas)
+						}, 200);
+					};
+					setupSocket();
+				})
+				.catch(function(err) {
+					/* Handle the error */
+					alert(err);  
+				});	
+			}
+
+			function setupSocket() {
+				socket = io.connect();
+				
+				socket.on('connect', function() {
+					console.log("Socket Connected");
+					console.log("My socket id: ", socket.id);
+
+					// Tell the server we want a list of the other users
+					socket.emit('list');
+				});
+
+				socket.on('disconnect', function(data) {
+					console.log("Socket disconnected");
+				});
+
+				socket.on('peer_disconnect', function(data) {
+					console.log("simplepeer has disconnected " + data);
+					for (let i = 0; i < simplepeers.length; i++) {
+						if (simplepeers[i].socket_id == data) {
+							console.log("Removing simplepeer: " + i);
+							simplepeers.splice(i,1);
+							// Should also remove video from page
+							document.getElementById(data).remove();
+						} 
+					}			
+				});			
+
+				// Receive listresults from server
+				socket.on('listresults', function (data) {
+					console.log(data);
+					for (let i = 0; i < data.length; i++) {
+						// Make sure it's not us
+						if (data[i] != socket.id) {	
+
+							// create a new simplepeer and we'll be the "initiator"			
+							let simplepeer = new SimplePeerWrapper(
+								true, data[i], socket, mystream
+							);
+
+							// Push into our array
+							simplepeers.push(simplepeer);	
+						}
+					}
+				});
+				
+				socket.on('signal', function(to, from, data) {
+				
+					console.log("Got a signal from the server: ", to, from, data);
+
+					// to should be us
+					if (to != socket.id) {
+						console.log("Socket IDs don't match");
+					}
+				
+					// Look for the right simplepeer in our array
+					let found = false;
+					for (let i = 0; i < simplepeers.length; i++) {
+						
+						if (simplepeers[i].socket_id == from) {
+							console.log("Found right object");
+							// Give that simplepeer the signal
+							simplepeers[i].inputsignal(data);
+							found = true;
+							break;
+						}
+					
+					}	
+					if (!found) {
+						console.log("Never found right simplepeer object");
+						// Let's create it then, we won't be the "initiator"
+						let simplepeer = new SimplePeerWrapper(
+							false, from, socket, mystream
+						);
+						
+						// Push into our array
+						simplepeers.push(simplepeer);	
+							
+						// Tell the new simplepeer that signal
+						simplepeer.inputsignal(data);
+					}
+				});
+
+			}
+
+			// A wrapper for simplepeer as we need a bit more than it provides
+			class SimplePeerWrapper {
+
+ 				constructor(initiator, socket_id, socket, stream) {
+					this.simplepeer = new SimplePeer({
+						initiator: initiator,
+						trickle: false
+					});				
+
+					// Their socket id, our unique id for them
+					this.socket_id = socket_id;
+					this.socket = socket;
+
+					// Our video stream - need getters and setters for this
+					this.stream = stream;
+
+					// simplepeer generates signals which need to be sent across socket
+					this.simplepeer.on('signal', data => {						
+						this.socket.emit('signal', this.socket_id, this.socket.id, data);
+					});
+
+					// When we have a connection, send our stream
+					this.simplepeer.on('connect', () => {
+						console.log('CONNECT')
+						console.log(this.simplepeer);
+						//p.send('whatever' + Math.random())
+
+						// Let's give them our stream
+						this.simplepeer.addStream(stream);
+						console.log("Send our stream");
+					});
+
+					// Stream coming in to us
+					this.simplepeer.on('stream', stream => {
+						console.log('Incoming Stream');
+
+						// This should really be a callback
+						// Create a video object
+						let ovideo = document.createElement("VIDEO");
+						ovideo.id = this.socket_id;
+						ovideo.srcObject = stream;
+						ovideo.muted = true;
+						ovideo.onloadedmetadata = function(e) {
+							ovideo.play();
+						};					
+						document.body.appendChild(ovideo);
+						console.log(ovideo);
+					});		
+					
+					this.simplepeer.on('close', () => {
+						console.log('Got close event');
+						// Should probably remove from the array of simplepeers
+					});
+
+					this.simplepeer.on('error', (err) => {
+						console.log(err);
+					});
+				}
+  
+				inputsignal(sig) {
+					this.simplepeer.signal(sig);
+				}
+
+			}			
+
+		</script>
+	<link rel="stylesheet" href="style.css">
+	</head>
+  <body>
+	<div>
+		<video id="myvideo" width="400" height="300" muted></video>
+		<canvas id="thecanvas" width="200px" height="150px" hidden></canvas>
+
+	</div>
+
+	<div id="symbolContainer">
+        <div id="heart">
+          <svg width="100px" height="100px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="pink"/>
+            </svg>
+        </div>
+        <div id="raiseHand" >
+          🤚
+        </div>
+        <div id="yay">
+          🙌
+        </div>
+        <div id="thumb">
+          👍
+        </div>
+      </div>
+
+  </body>
+</html>
