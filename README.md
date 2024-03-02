@@ -30,5 +30,14 @@ _________________________________________________________________
 ```
 - Model accuracy: 0.89552241563797
 ## Frontend Usage
-
-
+### Server Run
+- Linux commands:
+```
+ssh root@qz2432.itp.io
+root@qz2432.itp.io's password: 
+```
+```
+root@ruby-zhang:~# cd ./live-web/week5
+root@ruby-zhang:~/live-web/week5# node server.js
+```
+-<img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/087eac2e-59b9-41b5-ba6d-401f7ec1e96f" width=600>
