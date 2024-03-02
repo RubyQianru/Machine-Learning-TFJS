@@ -29,8 +29,8 @@ Non-trainable params: 0 (0.00 Byte)
 _________________________________________________________________
 ```
 - Model accuracy: 0.89552241563797
-## Frontend Usage
-### Server Run
+## Model Predictions: TensorFlowJS Usage on the Frontend
+### Run Server
 - Linux commands:
 ```
 ssh root@qz2432.itp.io
@@ -40,4 +40,7 @@ root@qz2432.itp.io's password:
 root@ruby-zhang:~# cd ./live-web/week5
 root@ruby-zhang:~/live-web/week5# node server.js
 ```
--<img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/087eac2e-59b9-41b5-ba6d-401f7ec1e96f" width=600>
+- qz2432.itp.io: 
+- <img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/087eac2e-59b9-41b5-ba6d-401f7ec1e96f" width=600>
+- Full code examples: [Link](https://github.com/RubyQianru/Machine-Learning-TFJS/tree/main/Week5-Real-Time-Handpose-Recognition)
+- Frontend code examples: [Link](https://github.com/RubyQianru/Machine-Learning-TFJS/tree/main/Week5-Real-Time-Handpose-Recognition/public)
