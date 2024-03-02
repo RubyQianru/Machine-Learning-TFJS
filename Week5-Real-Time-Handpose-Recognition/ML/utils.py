@@ -105,17 +105,12 @@ def plot_loss(history):
 def test_model(model, x_test, y_test):
 
     predictions = model.predict(x_test)
+    print(predictions)
     y_pred = np.argmax(predictions, axis=1)
 
     test_loss, test_acc = model.evaluate(x_test, y_test)
 
-    print(
-        predictions[0].argmax(),
-        predictions[1].argmax(),
-        predictions[2].argmax(),
-        predictions[3].argmax(),
-        predictions[4].argmax()
-        )
+    
 
     return test_acc, y_pred
 

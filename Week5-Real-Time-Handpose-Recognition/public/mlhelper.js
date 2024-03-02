@@ -27,7 +27,6 @@ async function makePrediction(target) {
 
   if ( maxi !== null && symbolHandlers[maxi].toggle == false ) {
     symbolHandlers[maxi].symbolToggle()
-    console.log(symbolHandlers[maxi])
     mlsocket.emit(symbolHandlers[maxi].socket)
   }
 }
@@ -94,18 +93,21 @@ class HandposeModel {
       inputs = [];
 
       for (let i = 0; i < landmarks.length; i++) {
-        inputs.push(landmarks[i][0]);
-        inputs.push(landmarks[i][1]);
-        inputs.push(landmarks[i][2]);
+        inputs.push(landmarks[i][0]/505);
+        inputs.push(landmarks[i][1]/505);
+        inputs.push(landmarks[i][2]/505);
       }
-
-      const output = this.model.predict(tf.tensor(inputs, [1, 63]));
+      const output = tf.tidy(() => {
+        return this.model.predict(tf.tensor(inputs, [1, 63]));
+      });
       const result = await output.array()
+      console.log(result)
       maxi = await this.getResult(result[0])
-      return maxi
+      if (result[0][maxi] >= 0.8) {
+        return maxi
+      }
     }
     return null
-
   }
 
 }
