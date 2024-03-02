@@ -1,9 +1,16 @@
 # Machine Learning
 - This is the repo for the Machine Learning for TensorFlow, TensorFlowJS experiments in Computer Vision. This class features experiments with browser-based machine learning.
 # AI Live Meeting
-- What problem am I trying to address? I noticed the difficulty to **quickly interact with peers** during multi-user livestream videos (e.g. Zoom, Google meet). For example, in a online class scenario, if a user want to raise hand to ask a question, the user has to click the **emoji button -> select emoji -> deselect emoji (three steps)** to complete the user flow of interaction with the professor.
-- How can AI help to solve this problem? An AI algorithm, potentially computer vision to classify users’ hand postures, and to directly emit signals to the peers.
-- What data is needed to create an AI to help address the issue? A series of input data that is able to precisely conclude humans’ hand postures.
+### Tech Stack
+<a href="https://skillicons.dev" class="image-link"><img src="https://skillicons.dev/icons?i=js,html,css,p5js,express,nodejs,tensorflow"></a>
+### Responsibility
+- Spearheading real-time HTTPS communication for web and mobile, enabling live video transmission and AI prediction.
+- Implemented neural networks leveraging TensorFlow hand pose recognition, achieving 80%+ accuracy in classification.
+- Integrated automated data collection system, enhancing user experience, and boosting operational efficiency by 50%.
+## Design Thinking
+- **🤔 What problem am I trying to address❓** I noticed the difficulty to **quickly interact with peers** during multi-user livestream videos (e.g. Zoom, Google meet). For example, in a online class scenario, if a user want to raise hand to ask a question, the user has to click the **emoji button -> select emoji -> deselect emoji (three steps)** to complete the user flow of interaction with the professor.
+- **🤔 How can AI help to solve this problem ❓** An AI algorithm, potentially computer vision to classify users’ hand postures, and to directly emit signals to the peers.
+- **🤔 What data is needed to create an AI to help address the issue ❓** A series of input data that is able to precisely conclude humans’ hand postures.
 ## Data Collection
 - Prototype: [Link](https://editor.p5js.org/qz2432/sketches/dRK9sis7h)
 - The prototype is based on [Daniel Shiffman's The Coding Train](https://thecodingtrain.com/Courses/ml5-beginners-guide/7.2-pose-classification.html). I reduced data collection wait time, and extended data collection time, so that the data collection system can automatically input more data samples at a time. This design upgraded the user experience of data collection.
