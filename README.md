@@ -9,7 +9,9 @@
 - The prototype is based on [Daniel Shiffman's The Coding Train](https://thecodingtrain.com/Courses/ml5-beginners-guide/7.2-pose-classification.html). I reduced data collection wait time, and extended data collection time, so that the data collection system can automatically input more data samples at a time. This design upgraded the user experience of data collection.
 ## Model Training
 - Deep Learning model trained with Jupyter Notebook: [Link](https://github.com/RubyQianru/Machine-Learning-TFJS/tree/main/Week5-Real-Time-Handpose-Recognition/ML)
-- Model summary:
+- [util.py](https://github.com/RubyQianru/Machine-Learning-TFJS/blob/main/Week5-Real-Time-Handpose-Recognition/ML/utils.py): python funtions to load data (load json data into numpy arrays, shuffle data), preprocess data (slice X_train, y_train into train sets and validation sets), build model (establish neural networks), test model.
+- [main.ipynb](https://github.com/RubyQianru/Machine-Learning-TFJS/blob/main/Week5-Real-Time-Handpose-Recognition/ML/main.ipynb_): main workflow to train machine learning model step by step.
+- Model summary: 
 ```
 Model: "sequential"
 _________________________________________________________________
@@ -25,5 +27,7 @@ Trainable params: 2180 (8.52 KB)
 Non-trainable params: 0 (0.00 Byte)
 _________________________________________________________________
 ```
+- Model accuracy: 0.89552241563797
+## Frontend Usage
 
 
