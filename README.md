@@ -2,7 +2,7 @@
 - This is the repo for the Machine Learning for TensorFlow, TensorFlowJS experiments in Computer Vision. This class features experiments with browser-based machine learning.
 # AI Live Meeting
 ### Tech Stack
-<a href="https://skillicons.dev" class="image-link"><img src="https://skillicons.dev/icons?i=js,html,css,p5js,express,nodejs,tensorflow"></a>
+<a href="https://skillicons.dev" class="image-link"><img src="https://skillicons.dev/icons?i=js,python,html,css,p5js,express,nodejs,tensorflow"></a>
 ### Responsibility
 - Spearheading real-time HTTPS communication for web and mobile, enabling live video transmission and AI prediction.
 - Implemented neural networks leveraging TensorFlow hand pose recognition, achieving 80%+ accuracy in classification.
