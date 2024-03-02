@@ -51,3 +51,11 @@ root@ruby-zhang:~/live-web/week5# node server.js
 - <img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/087eac2e-59b9-41b5-ba6d-401f7ec1e96f" width=600>
 - Full code examples: [Link](https://github.com/RubyQianru/Machine-Learning-TFJS/tree/main/Week5-Real-Time-Handpose-Recognition)
 - Frontend code examples: [Link](https://github.com/RubyQianru/Machine-Learning-TFJS/tree/main/Week5-Real-Time-Handpose-Recognition/public)
+### Realtime Communication: WebRTC
+- Implementing a video chat application: Zoom, Microsoft Teams, Google Meets.
+- Technology: WebRTC provides APIs for capturing audio and video streams from the user's camera and microphone. These streams can be transmitted in real-time between peers, enabling video and audio calls directly in the browser without the need for third-party plugins.
+- Experience: Participants can join meetings via web browsers or dedicated applications on various devices.
+- [Live Chatbox created using gsap library and DOM](https://github.com/RubyQianru/Live-Web/tree/main/Chatbox)
+- <img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/4d47690f-2ffb-412c-b572-b7f2fa7b1608" width=600>
+- [Live video prototype using WebSocket](https://github.com/RubyQianru/Live-Web/tree/main/Video)
+- I tested the web application on webcams of my two laptops. This live video prototype is basing on HTML <canvas> and <image>. The web sockets receives canvas data and emit this data to all other clients. All clients update their src within <image>.
