@@ -1,131 +1,52 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+// Import necessary libraries and hooks from React and Next.js
+import Head from 'next/head'
+import { useState, useEffect, useRef } from 'react'
+import dynamic from 'next/dynamic'
 
-export default function Home() {
+// If there's a React-friendly version of the libraries, import them here
+// For example, TensorFlow models and MediaPipe might have React-compatible versions or hooks
+// import * as handpose from '@tensorflow-models/handpose';
+
+const IndexPage = () => {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  // State for managing your ML model, streams, and other data
+  const [mlModel, setMlModel] = useState(null);
+  // Add other states as necessary
+
+  useEffect(() => {
+
+    loadModels();
+    // Your existing initialization logic can be adapted and placed here
+    // Remember to clean up any listeners or intervals when the component unmounts
+    return () => {
+      // Cleanup logic
+    };
+  }, []);
+
+  // Your event handlers and functions adapted for React
+  // For example:
+  // const initCapture = () => { ... };
+  // const makePrediction = (target) => { ... };
+
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        {/* Your <head> contents here */}
       </Head>
-
-      <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family:
-            Menlo,
-            Monaco,
-            Lucida Console,
-            Liberation Mono,
-            DejaVu Sans Mono,
-            Bitstream Vera Sans Mono,
-            Courier New,
-            monospace;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family:
-            -apple-system,
-            BlinkMacSystemFont,
-            Segoe UI,
-            Roboto,
-            Oxygen,
-            Ubuntu,
-            Cantarell,
-            Fira Sans,
-            Droid Sans,
-            Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
+      <div>
+        {/* Your HTML structure adapted for React */}
+        <canvas ref={canvasRef} width="200" height="150" hidden></canvas>
+        <section id="videos">
+          <video ref={videoRef} width="400" height="300" muted></video>
+        </section>
+        <section id="panel">
+          <h4 id="header">Messages: </h4>
+        </section>
+        {/* Continue with the rest of your component structure */}
+      </div>
+    </>
   );
-}
+};
+
+export default IndexPage;
