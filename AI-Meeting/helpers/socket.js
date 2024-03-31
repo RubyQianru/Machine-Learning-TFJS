@@ -1,13 +1,13 @@
-let socket
-let simplepeers = []
-let socketId
-var username = prompt("Please enter your username:");
+export let socket
+export let simplepeers = []
+export let socketId
+export let username = prompt("Please enter your username:");
 
-function getSocketId() {
+export function getSocketId() {
     return username
 }
 
-function setupSocket() {
+export function setupSocket() {
     socket = io.connect();
     
     socket.on('connect', function() {

@@ -1,4 +1,4 @@
-class SimplePeerWrapper {
+export class SimplePeerWrapper {
 
     constructor(initiator, socket_id, socket, stream) {
        this.simplepeer = new SimplePeer({
@@ -61,3 +61,4 @@ class SimplePeerWrapper {
    }
 
 }	
+

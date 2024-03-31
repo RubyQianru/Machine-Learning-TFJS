@@ -1,24 +1,19 @@
-// Import necessary libraries and hooks from React and Next.js
 import Head from 'next/head'
 import { useState, useEffect, useRef } from 'react'
 import dynamic from 'next/dynamic'
+import { initModel, makePrediction } from '../helpers/mlhelper';
 
-// If there's a React-friendly version of the libraries, import them here
-// For example, TensorFlow models and MediaPipe might have React-compatible versions or hooks
-// import * as handpose from '@tensorflow-models/handpose';
 
 const IndexPage = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  // State for managing your ML model, streams, and other data
+
   const [mlModel, setMlModel] = useState(null);
-  // Add other states as necessary
 
   useEffect(() => {
 
-    loadModels();
-    // Your existing initialization logic can be adapted and placed here
-    // Remember to clean up any listeners or intervals when the component unmounts
+    initModel();
+
     return () => {
       // Cleanup logic
     };
@@ -32,7 +27,7 @@ const IndexPage = () => {
   return (
     <>
       <Head>
-        {/* Your <head> contents here */}
+        AI Meeting Room
       </Head>
       <div>
         {/* Your HTML structure adapted for React */}

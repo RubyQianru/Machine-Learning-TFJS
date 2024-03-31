@@ -1,18 +1,18 @@
-const keys = {
+export const keys = {
   "heart": "❤️",
   "raiseHand": "✋",
   "yay":"🎉",
   "thumb":"👍"
 }
 
-const threshold = {
+export const threshold = {
   0: 0.58,
   1: 0.6,
   2: 0.33,
   3: 0.44
 }
 
-class SymbolHandler {
+export class SymbolHandler {
   constructor(id, index) {
     this.toggle = false
     this.symbol = document.getElementById(id)
@@ -50,7 +50,7 @@ class SymbolHandler {
   }
 }
 
-class HandposeModel {
+export class HandposeModel {
 
   async graphModelInit(path) {
     const modelURL = path
@@ -99,5 +99,32 @@ class HandposeModel {
       return null 
     }
   }
-
 }
+
+export async function initModel() {
+  for (let i = 0; i < symbols.length; i++) {
+    const symbolHandler = new SymbolHandler(symbols[i], i)
+    symbolHandlers.push(symbolHandler)
+  }
+
+  mlModel = new HandposeModel()
+  await mlModel.tfmodelInit()
+  await mlModel.graphModelInit("./tfjsmodel-graph/model.json")
+
+  for (let symbolHandler of symbolHandlers) {
+    mlsocket.on(symbolHandler.socket, function(data){
+      console.log("Receiving data")
+      symbolHandler.handler(data)
+    })
+  }
+}
+
+export async function makePrediction(target) {
+  const maxi = await mlModel.predict(target)
+
+  if ( maxi !== null && symbolHandlers[maxi].toggle == false ) {
+    symbolHandlers[maxi].symbolToggle()
+    mlsocket.emit(symbolHandlers[maxi].socket, getSocketId())
+  }
+}
+
