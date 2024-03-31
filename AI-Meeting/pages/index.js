@@ -8,19 +8,24 @@ const IndexPage = () => {
 
   useEffect(() => {
     const initCapture = async () => {
+
       const video = videoRef.current;
       const canvas = canvasRef.current;
+
       if (video && canvas) {
+
         const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
         video.srcObject = stream;
+
         video.onloadedmetadata = () => {
           video.play();
           setInterval(async () => {
             const context = canvas.getContext('2d');
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            await makePrediction(canvas); // Assuming makePrediction is adapted to work with a canvas element
+            await makePrediction(canvas); 
           }, 200);
         };
+
       }
     };
 

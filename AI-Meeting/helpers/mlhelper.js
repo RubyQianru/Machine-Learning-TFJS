@@ -121,10 +121,10 @@ export async function initModel() {
 
 export async function makePrediction(target) {
   const maxi = await mlModel.predict(target)
-
-  if ( maxi !== null && symbolHandlers[maxi].toggle == false ) {
-    symbolHandlers[maxi].symbolToggle()
-    mlsocket.emit(symbolHandlers[maxi].socket, getSocketId())
-  }
+  console.log(maxi)
+  // if ( maxi !== null && symbolHandlers[maxi].toggle == false ) {
+  //   symbolHandlers[maxi].symbolToggle()
+  //   mlsocket.emit(symbolHandlers[maxi].socket, getSocketId())
+  // }
 }
 
