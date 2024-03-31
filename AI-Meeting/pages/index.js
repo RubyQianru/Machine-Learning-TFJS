@@ -1,44 +1,50 @@
-import Head from 'next/head'
-import { useState, useEffect, useRef } from 'react'
-import dynamic from 'next/dynamic'
+import Head from 'next/head';
+import { useEffect, useRef } from 'react';
 import { initModel, makePrediction } from '../helpers/mlhelper';
-
 
 const IndexPage = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const [mlModel, setMlModel] = useState(null);
-
   useEffect(() => {
+    const initCapture = async () => {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      if (video && canvas) {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
+        video.srcObject = stream;
+        video.onloadedmetadata = () => {
+          video.play();
+          setInterval(async () => {
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            await makePrediction(canvas); // Assuming makePrediction is adapted to work with a canvas element
+          }, 200);
+        };
+      }
+    };
 
-    initModel();
+    initCapture().catch(console.error);
+    initModel().catch(console.error);
 
     return () => {
-      // Cleanup logic
+      if (videoRef.current && videoRef.current.srcObject) {
+        const tracks = videoRef.current.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
     };
   }, []);
-
-  // Your event handlers and functions adapted for React
-  // For example:
-  // const initCapture = () => { ... };
-  // const makePrediction = (target) => { ... };
 
   return (
     <>
       <Head>
-        AI Meeting Room
+        <title>AI Meeting Room</title>
       </Head>
       <div>
-        {/* Your HTML structure adapted for React */}
         <canvas ref={canvasRef} width="200" height="150" hidden></canvas>
         <section id="videos">
           <video ref={videoRef} width="400" height="300" muted></video>
         </section>
-        <section id="panel">
-          <h4 id="header">Messages: </h4>
-        </section>
-        {/* Continue with the rest of your component structure */}
       </div>
     </>
   );

@@ -1,11 +1,11 @@
-export const keys = {
+const keys = {
   "heart": "❤️",
   "raiseHand": "✋",
   "yay":"🎉",
   "thumb":"👍"
 }
 
-export const threshold = {
+const threshold = {
   0: 0.58,
   1: 0.6,
   2: 0.33,
