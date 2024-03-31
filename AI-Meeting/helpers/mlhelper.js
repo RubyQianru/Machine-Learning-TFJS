@@ -102,21 +102,23 @@ export class HandposeModel {
 }
 
 export async function initModel() {
-  for (let i = 0; i < symbols.length; i++) {
-    const symbolHandler = new SymbolHandler(symbols[i], i)
-    symbolHandlers.push(symbolHandler)
-  }
+  // for (let i = 0; i < symbols.length; i++) {
+  //   const symbolHandler = new SymbolHandler(symbols[i], i)
+  //   symbolHandlers.push(symbolHandler)
+  // }
 
-  mlModel = new HandposeModel()
+  let mlModel = new HandposeModel()
   await mlModel.tfmodelInit()
   await mlModel.graphModelInit("./tfjsmodel-graph/model.json")
 
-  for (let symbolHandler of symbolHandlers) {
-    mlsocket.on(symbolHandler.socket, function(data){
-      console.log("Receiving data")
-      symbolHandler.handler(data)
-    })
-  }
+  return mlModel
+
+  // for (let symbolHandler of symbolHandlers) {
+  //   mlsocket.on(symbolHandler.socket, function(data){
+  //     console.log("Receiving data")
+  //     symbolHandler.handler(data)
+  //   })
+  // }
 }
 
 export async function makePrediction(target) {

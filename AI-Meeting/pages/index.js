@@ -1,12 +1,14 @@
 import Head from 'next/head';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { initModel, makePrediction } from '../helpers/mlhelper';
 
 const IndexPage = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const [ prediction, setPrediction] = useState(null);
 
   useEffect(() => {
+
     const initCapture = async () => {
 
       const video = videoRef.current;
@@ -30,7 +32,6 @@ const IndexPage = () => {
     };
 
     initCapture().catch(console.error);
-    initModel().catch(console.error);
 
     return () => {
       if (videoRef.current && videoRef.current.srcObject) {
