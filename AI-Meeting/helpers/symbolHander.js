@@ -12,7 +12,7 @@ const threshold = {
     3: 0.44
 }
   
- export class SymbolHandler {
+export class SymbolHandler {
     constructor(id, index) {
         this.toggle = false
         this.symbol = document.getElementById(id)
@@ -65,5 +65,4 @@ export function initHandler() {
     } 
 
     return symbolHandler;
-
 }
