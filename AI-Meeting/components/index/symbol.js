@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react';
-import { SymbolHandler, keys, threshold } from './SymbolHandler'; 
+import React, { useEffect, useRef } from 'react';
+import io from 'socket.io-client';
+import { SymbolHandler, keys, threshold } from '../../helpers/symbolHander'; 
 
 const symbols = ["heart", "raiseHand", "yay", "thumb"];
 
-const SymbolComponent = () => {
+const Symbol = () => {
+  const mlsocket = useRef(null); 
+
   useEffect(() => {
+    mlsocket.current = io.connect();
     const symbolHandlers = symbols.map((symbol, index) => new SymbolHandler(symbol, index));
 
     // Assuming `mlsocket` is your WebSocket instance
@@ -23,8 +27,7 @@ const SymbolComponent = () => {
   }, []); 
 
   return (
-    <div id="panel">
-      {/* Render your symbols and other UI elements here */}
+    <div >
       {symbols.map(symbol => (
         <div key={symbol} id={symbol}>{keys[symbol]}</div>
       ))}
@@ -32,4 +35,4 @@ const SymbolComponent = () => {
   );
 };
 
-export default SymbolComponent;
+export default Symbol;

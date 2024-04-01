@@ -1,11 +1,11 @@
-const keys = {
+export const keys = {
     "heart": "❤️",
     "raiseHand": "✋",
     "yay":"🎉",
     "thumb":"👍"
 }
   
-const threshold = {
+export const threshold = {
     0: 0.58,
     1: 0.6,
     2: 0.33,
@@ -19,7 +19,7 @@ export class SymbolHandler {
         this.index = index
         this.socket = id
     
-        this.panel = document.getElementById("panel")
+        // this.panel = document.getElementById("panel")
     }
   
     handler(data) {
@@ -42,12 +42,12 @@ export class SymbolHandler {
             }, 2001)
     }
   
-    updatePanel = (data) => {
-        const message = document.createElement('div')
-        message.style.padding = '5px'
-        message.innerText = `${data} sends ${keys[this.socket]}`
-        this.panel.appendChild(message)
-    }
+    // updatePanel = (data) => {
+    //     const message = document.createElement('div')
+    //     message.style.padding = '5px'
+    //     message.innerText = `${data} sends ${keys[this.socket]}`
+    //     this.panel.appendChild(message)
+    // }
   }
 
 export function initHandler() {
