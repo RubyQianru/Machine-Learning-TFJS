@@ -1,3 +1,6 @@
+import * as tf from '@tensorflow/tfjs';
+import * as handpose from '@tensorflow-models/handpose';
+
 const keys = {
   "heart": "❤️",
   "raiseHand": "✋",
@@ -109,7 +112,7 @@ export async function initModel() {
 
   let mlModel = new HandposeModel()
   await mlModel.tfmodelInit()
-  await mlModel.graphModelInit("./tfjsmodel-graph/model.json")
+  await mlModel.graphModelInit("/tfjsmodel-graph/model.json")
 
   return mlModel
 
@@ -121,9 +124,9 @@ export async function initModel() {
   // }
 }
 
-export async function makePrediction(target) {
+export async function makePrediction(mlModel, target) {
   const maxi = await mlModel.predict(target)
-  console.log(maxi)
+  return maxi
   // if ( maxi !== null && symbolHandlers[maxi].toggle == false ) {
   //   symbolHandlers[maxi].symbolToggle()
   //   mlsocket.emit(symbolHandlers[maxi].socket, getSocketId())
