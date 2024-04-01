@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
-import * as tf from '@tensorflow/tfjs';
-import * as handpose from '@tensorflow-models/handpose';
-import { SymbolHandler, HandposeModel, initModel, makePrediction } from '../helpers/mlhelper'; 
+import { SymbolHandler, HandposeModel, initModel, makePrediction } from '../../helpers/mlhelper'; 
 
 const keys = {
   "heart": "❤️",

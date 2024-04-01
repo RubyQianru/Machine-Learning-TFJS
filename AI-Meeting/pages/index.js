@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Video from '../components/video';
+import Video from '../components/index/video';
 
 const IndexPage = () => {
   

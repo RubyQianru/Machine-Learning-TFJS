@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { initModel, makePrediction } from '../helpers/mlhelper';
+import { initModel, makePrediction } from '../../helpers/mlhelper';
 
 const Video = () => {
   const videoRef = useRef(null);
