@@ -52,7 +52,6 @@ function keyPressed(event) {
           data: predictionData.map(d => ({ xs: d, ys: { "0": event.key } }))
         };
         console.log('Data saved:', JSON.stringify(labeledData));
-        predictionData = []; 
       }, 5000); 
     }
   }
