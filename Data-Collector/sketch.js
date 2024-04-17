@@ -58,13 +58,13 @@ function keyPressed(event) {
   }
 }
 
-
-
 function onResults(results) {
   if (collecting) {
-    
-    const handData = results.multiHandLandmarks.map(hand => Object.values(hand).flat());
-    predictionData.push(...handData);
+    setInterval(() => {
+      const handData = results.multiHandLandmarks.map(hand => Object.values(hand).flat());
+      predictionData.push(...handData);
+    }, 50);
+    clearInterval();
   }
   
   canvasCtx.save();
