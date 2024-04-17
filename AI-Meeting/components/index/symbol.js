@@ -11,7 +11,6 @@ const Symbol = () => {
     mlsocket.current = io.connect();
     const symbolHandlers = symbols.map((symbol, index) => new SymbolHandler(symbol, index));
 
-    // Assuming `mlsocket` is your WebSocket instance
     symbolHandlers.forEach(handler => {
       mlsocket.on(handler.socket, data => {
         console.log("Receiving data");
