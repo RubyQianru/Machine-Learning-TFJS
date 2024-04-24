@@ -5,12 +5,6 @@ export const keys = {
     "thumb":"👍"
 }
   
-export const threshold = {
-    0: 0.58,
-    1: 0.6,
-    2: 0.33,
-    3: 0.44
-}
   
 export class SymbolHandler {
     constructor(id, index) {
@@ -18,8 +12,6 @@ export class SymbolHandler {
         this.symbol = document.getElementById(id)
         this.index = index
         this.socket = id
-    
-        // this.panel = document.getElementById("panel")
     }
   
     handler(data) {
@@ -32,7 +24,7 @@ export class SymbolHandler {
         this.symbol.className = 'visible'
         setTimeout(() => {
             this.symbol.classList.remove('visible')
-        }, 2000)
+        }, 2001)
     }    
   
     symbolToggle = () => {

@@ -1,6 +1,13 @@
 import * as tf from '@tensorflow/tfjs';
 import * as handpose from '@tensorflow-models/handpose';
 
+const threshold = {
+  0: 0.58,
+  1: 0.6,
+  2: 0.33,
+  3: 0.44
+}
+
 export class HandposeModel {
 
   async graphModelInit(path) {

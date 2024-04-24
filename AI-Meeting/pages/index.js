@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Video from '../components/index/video';
-import Symbol from '../components/index/symbol';
+// import Symbol from '../components/index/symbol';
 
 const IndexPage = () => {
   
@@ -11,7 +11,7 @@ const IndexPage = () => {
         <title>AI Meeting Room</title>
       </Head>
       <Video/>
-      <Symbol/>
+      {/* <Symbol/> */}
 
     </>
   );

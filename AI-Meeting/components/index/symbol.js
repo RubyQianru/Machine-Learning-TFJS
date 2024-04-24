@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import io from 'socket.io-client';
-import { SymbolHandler, keys, threshold } from '../../helpers/symbolHander'; 
+import { SymbolHandler, keys} from '../../helpers/symbolHander'; 
 
 const symbols = ["heart", "raiseHand", "yay", "thumb"];
 
