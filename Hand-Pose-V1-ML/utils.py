@@ -33,6 +33,8 @@ def load_data(file_paths, random_seed=1):
                 y_data.append(3)
             elif label['0'] == 'n':
                 y_data.append(4)
+            elif label['0'] == 'p':
+                y_data.append(5)
 
         all_y_data.extend(y_data)
 
@@ -74,7 +76,7 @@ def build_model():
 
     model = keras.Sequential([
         layers.Dense(32, activation="relu"),
-        layers.Dense(5, activation="softmax")
+        layers.Dense(6, activation="softmax")
     ])
 
     model.compile(optimizer="adam",
