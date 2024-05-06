@@ -5,10 +5,10 @@
 
 ### Preview
 
-<img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/bcc99473-9c82-42c4-9361-49b62668165e" width="400">
-<img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/d6e65d93-d495-4b84-a860-ce1972063f38" width="400">
-<img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/b9fc581d-72ef-4297-b607-76cf77dcef4c" width="400">
-<img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/8222b9be-dd75-41dc-8157-1beedfaf1832" width="400">
+<img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/bcc99473-9c82-42c4-9361-49b62668165e" width="500">
+<img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/d6e65d93-d495-4b84-a860-ce1972063f38" width="500">
+<img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/b9fc581d-72ef-4297-b607-76cf77dcef4c" width="500">
+<img src="https://github.com/RubyQianru/Machine-Learning-TFJS/assets/142470034/8222b9be-dd75-41dc-8157-1beedfaf1832" width="500">
 
 User testings with two classes of 20+ students.
 
