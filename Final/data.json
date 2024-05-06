@@ -1,0 +1,16 @@
+{
+    "data": [
+        {
+            "uuid": "123e4567-e89b-12d3-a456-426614174000",
+            "title": "Happy end of the semester!",
+            "instruction": "✌️",
+            "symbol": "yay"
+        },
+        {
+            "uuid": "456f7890-f12c-34d5-e678-567890123456",
+            "title": "Start of summer break!",
+            "instruction": "✌️",
+            "symbol": "yay"
+        }
+    ]
+}
